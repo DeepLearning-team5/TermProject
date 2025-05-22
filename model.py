@@ -5,7 +5,7 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
 def build_faster_rcnn(config):
     weights = FasterRCNN_ResNet50_FPN_Weights.DEFAULT if config.pretrained else None
-    model = fasterrcnn_resnet50_fpn(weights=weights)
+    model = fasterrcnn_resnet50_fpn(min_size=64, max_size=224, weights=weights)
 
     if config.backbone_freeze:
         for param in model.backbone.parameters():

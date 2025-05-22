@@ -12,7 +12,7 @@ class WaterColor2kConfig:
         self.num_workers = 4
 
         # Training Settings
-        self.batch_size = 8
+        self.batch_size = 1
         self.epoch = 10
         self.lr = 0.001
 
@@ -30,9 +30,10 @@ class WaterColor2kConfig:
         # Paths
         self.data_root = './data/watercolor'
         self.output_dir = f'./checkpoints/watercolor_{mode}'
+        self.save_path = f'./visualization/wartercolor_{mode}'
 
         # Dataset Information
-        CLASSES = ['bicycle', 'bird', 'car', 'cat', 'dog', 'person']
+        self.CLASSES = ['bicycle', 'bird', 'car', 'cat', 'dog', 'person']
 
     def configure_mode(self):
         if self.mode == "zeroshot":

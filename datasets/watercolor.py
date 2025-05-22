@@ -8,12 +8,11 @@ import torch
 class WatercolorCocoDataset(CocoDetection):
     def __init__(self, img_folder, ann_file, transforms=None):
         super(WatercolorCocoDataset, self).__init__(img_folder, ann_file)
-        self.transforms = transforms
+        self._transforms = transforms
 
     def __getitem__(self, idx):
         img, target = super(WatercolorCocoDataset, self).__getitem__(idx)
-
-        img_id = self.idx[idx]
+        img_id = self.ids[idx]
         ann_ids = self.coco.getAnnIds(imgIds=img_id)
         anns = self.coco.loadAnns(ann_ids)
 
@@ -30,10 +29,10 @@ class WatercolorCocoDataset(CocoDetection):
             'labels': torch.tensor(labels, dtype=torch.int64)
         }
 
-        if self.transforms is not None:
-            img = self.transforms(img)
+        if self._transforms is not None:
+            img = self._transforms(img)
         
         return img, target
     
     def __len__(self):
-        return len(self.idx)
+        return len(self.ids)
