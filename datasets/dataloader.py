@@ -1,6 +1,6 @@
 from torch.utils.data import DataLoader
 from .transforms import get_transform
-from .watercolor import WatercolorCocoDataset
+from .datasets import VOCStyleDataset
 from utils.utils import collate_fn
 
 def get_dataloader(config, split):
@@ -10,7 +10,7 @@ def get_dataloader(config, split):
 
     is_train = split == "train"
 
-    dataset = WatercolorCocoDataset(
+    dataset = VOCStyleDataset(
         img_folder=img_dir,
         ann_file=ann_path,
         transforms=get_transform(train=is_train)
