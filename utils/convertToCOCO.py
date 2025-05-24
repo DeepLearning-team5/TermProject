@@ -73,4 +73,7 @@ def run_conversion(dataset_root):
             json.dump(coco, f, indent=2)
 
 if __name__ == "__main__":
-    run_conversion('./data/clipart')  # ← 워터컬러 데이터셋 root
+    names = ['clipart', 'watercolor', 'comic']
+
+    for name in names:
+        run_conversion(f'./data/{name}')
