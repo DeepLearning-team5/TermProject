@@ -7,14 +7,17 @@ class WaterColor2kConfig:
 
         # Dataset Settings
         self.dataset = 'watercolor'
-        self.num_classes = 6
-        self.image_size = (512, 512)
+        self.num_classes = 8
+        self.image_size = (320, 320)
         self.num_workers = 4
 
         # Training Settings
-        self.batch_size = 1
+        self.batch_size = 4
         self.epoch = 10
-        self.lr = 0.001
+        self.lr = 0.0001
+        self.weight_decay=1e-4
+        self.optimizer='Adam'
+
 
         # Model Settings
         self.model = 'fasterrcnn_resnet50_fpn'
@@ -29,8 +32,8 @@ class WaterColor2kConfig:
 
         # Paths
         self.data_root = './data/watercolor'
-        self.output_dir = f'./checkpoints/watercolor_{mode}'
-        self.save_path = f'./visualization/wartercolor_{mode}'
+        self.output_dir = f'./checkpoints/watercolor/{mode}'
+        self.save_path = f'./visualization/watercolor/{mode}'
 
         # Dataset Information
         self.CLASSES = ['bicycle', 'bird', 'car', 'cat', 'dog', 'person']
@@ -48,7 +51,7 @@ class WaterColor2kConfig:
 
         elif self.mode == "scratch":
             self.eval_only = False
-            self.backbone_freeze = False
+            self.backbone_freeze = True
             self.head_random_init = True
 
         else:
