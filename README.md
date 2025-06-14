@@ -68,5 +68,5 @@ Evaluation uses torchmetrics.MeanAveragePrecision with:
 
 Checkpoints are saved under:
 ```
-./checkpoints/watercolor_finetune/
+./checkpoints/{dataset}/{mode}/
 ```
