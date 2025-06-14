@@ -1,4 +1,5 @@
 from torchvision.datasets import CocoDetection
+from torch.utils.data import Dataset
 import torchvision.transforms.functional as F
 import torchvision.transforms as T
 from PIL import Image
@@ -83,3 +84,4 @@ class VOCStyleDataset(CocoDetection):
     
     def __len__(self):
         return len(self.ids)
+    

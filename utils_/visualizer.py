@@ -77,7 +77,7 @@ def compare_predictions(models, model_names, dataset, device, config, idx=0, sco
     plt.tight_layout()
     plt.show()
 
-def visualize_ground_truth_and_predictions(models, model_names, dataset, device, config, target_class=None, start_idx = 0, score_threshold=0.5, save_path=None):
+def visualize_ground_truth_and_predictions(models, model_names, dataset, device, config, target_class=None, start_idx = 0, score_threshold=0.75, save_path=None):
     """
     Visualize both the ground truth and predictions from multiple models for a sample
     containing a specified target class.

@@ -31,6 +31,7 @@ class Evaluator:
         self.mAP_75 = MeanAveragePrecision(iou_thresholds=[0.75])
         self.mAP_90 = MeanAveragePrecision(iou_thresholds=[0.9])
 
+
     def evaluate(self, epoch=None):
         """
         Perform model evaluation on the entire evaluation dataset.
@@ -55,7 +56,6 @@ class Evaluator:
                 targets = [{k: v.to("cpu") for k, v in t.items()} for t in targets]
                 outputs = self.model(images)
                 outputs = [{k: v.to("cpu") for k, v in o.items()} for o in outputs]
-
 
                 self.mAP_50.update(outputs, targets)
                 self.mAP_75.update(outputs, targets)

@@ -22,16 +22,47 @@ def build_faster_rcnn(config):
 
     # Load pretrained weights 
     weights = FasterRCNN_ResNet50_FPN_Weights.DEFAULT if config.pretrained else None
-    model = fasterrcnn_resnet50_fpn(
-        min_size=320, 
-        max_size=320, 
-        weights=weights
-    )
+    if config.mode == 'scratch':
+        print("random backbone weight")
+        model = fasterrcnn_resnet50_fpn(
+            min_size=512, 
+            max_size=512, 
+            weights=None,
+            weights_backbone = None
+        )
+    else:
+        model = fasterrcnn_resnet50_fpn(
+            min_size=512, 
+            max_size=512, 
+            weights=weights
+        )
 
-    # Freeze Backbone
-    if config.backbone_freeze:
+    # Backbone Freezing based on freeze_mode
+    if config.freeze_mode == "full":
         for param in model.backbone.parameters():
             param.requires_grad = False
+
+    elif config.freeze_mode == "partial":
+        for name, param in model.backbone.body.named_parameters():
+            if "layer4" in name:
+                param.requires_grad = True
+            else:
+                param.requires_grad = False
+
+    elif config.freeze_mode == "bn_only":
+        for name, param in model.backbone.body.named_parameters():
+            if "bn" in name:
+                param.requires_grad = True
+            else:
+                param.requires_grad = False
+
+    elif config.freeze_mode == "none":
+        for param in model.backbone.parameters():
+            param.requires_grad = True
+
+    else:
+        raise ValueError(f"Invalid freeze_mode: {config.freeze_mode}")
+
 
     # Replace head
     in_features = model.roi_heads.box_predictor.cls_score.in_features
@@ -45,3 +76,5 @@ def build_faster_rcnn(config):
         torch.nn.init.constant_(model.roi_heads.box_predictor.bbox_pred.bias, 0)
 
     return model
+
+

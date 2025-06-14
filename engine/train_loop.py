@@ -29,7 +29,6 @@ class Trainer:
         self.device = device
         self.logger = logger
         self.lr_schedular = StepLR(optimizer, step_size=7, gamma=0.1)
-        self.early_stopping=10
 
         self.evaluator = Evaluator(self.model, self.test_loader, self.device, self.logger)
 
@@ -43,7 +42,6 @@ class Trainer:
         
         """
         best_score = -1.0
-        early_stopping_counter = 0
 
         for epoch in range(epochs):
             loss = self.train_one_epoch(epoch)
@@ -56,18 +54,10 @@ class Trainer:
 
                 if score > best_score:
                     best_score = score
-                    early_stopping_counter = 0
                     if save_path:
                         os.makedirs(save_path, exist_ok=True)
                         torch.save(self.model.state_dict(), f"{save_path}/best_model.pth")
                         print(f"[Checkpoint] Best model saved (score: {score:.4f})")
-                else:
-                    early_stopping_counter += 1
-
-
-                if early_stopping_counter >= self.early_stopping:
-                    print(f"[Early Stop] No Improvement for {self.early_stopping} epochs.")
-                    break
             
             if save_path:
                 os.makedirs(save_path, exist_ok=True)
@@ -101,7 +91,6 @@ class Trainer:
             self.optimizer.step()
 
             total_loss += loss.item()
-            pbar.set_postfix(loss = loss.item())
 
             if self.logger:
                 self.logger.log({

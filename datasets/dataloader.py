@@ -1,7 +1,7 @@
 from torch.utils.data import DataLoader
 from .transforms import get_transform
 from .datasets import VOCStyleDataset
-from utils.utils import collate_fn
+from utils_.utils import collate_fn
 
 def get_dataloader(config, split):
 
